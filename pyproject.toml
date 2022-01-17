@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "pyshort"
+version = "0.1.0"
+description = ""
+authors = ["rtplv <rtplv@yandex.ru>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aiohttp = {extras = ["speedups"], version = "^3.8.1"}
+aiofiles = "^0.8.0"
+Authlib = "^0.15.5"
+databases = {extras = ["postgresql"], version = "^0.5.4"}
+python-dotenv = "^0.19.2"
+bcrypt = "^3.2.0"
+pytest = "^6.2.5"
+pydantic = "^1.9.0"
+alembic = "^1.7.5"
+psycopg2 = "^2.9.3"
+ujson = "^5.1.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
