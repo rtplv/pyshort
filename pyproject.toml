@@ -18,6 +18,7 @@ pydantic = "^1.9.0"
 alembic = "^1.7.5"
 psycopg2 = "^2.9.3"
 ujson = "^5.1.0"
+aiohttp_cors = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 

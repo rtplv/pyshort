@@ -1,6 +1,7 @@
 import logging
 from typing import Callable
 
+import aiohttp_cors
 from aiohttp import web
 from authlib.jose.errors import ExpiredTokenError, DecodeError
 
@@ -23,7 +24,8 @@ async def on_shutdown(_: web.Application):
 @web.middleware
 async def on_request(req: web.Request, handler: Callable):
     try:
-        if req.match_info.route.resource.canonical in [pr.path for pr in public_routes]:
+        if req.method == "OPTIONS" or \
+           req.match_info.route.resource.canonical in [pr.path for pr in public_routes]:
             return await handler(req)
 
         token = extract_from_req(req)
@@ -40,8 +42,22 @@ app = web.Application(middlewares=[on_request])
 
 # Routes
 app.add_routes([*public_routes, *private_routes])
+# Lifecycle events
 app.on_startup.append(on_startup)
 app.on_shutdown.append(on_shutdown)
+# CORS
+# WARN: only for dev
+cors = aiohttp_cors.setup(app, defaults={
+    "*": aiohttp_cors.ResourceOptions(
+        allow_credentials=True,
+        expose_headers="*",
+        allow_headers="*",
+        allow_methods="*"
+    )
+})
+
+for route in list(app.router.routes()):
+    cors.add(route)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

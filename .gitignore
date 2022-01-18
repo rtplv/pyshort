@@ -132,3 +132,5 @@ dmypy.json
 keys
 
 .idea
+
+.DS_Store
