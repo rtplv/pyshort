@@ -6,10 +6,10 @@ from asyncpg import UniqueViolationError
 from pydantic import BaseModel, ValidationError
 from app.auth import storage
 from app.auth.storage import User
-from utils import jwt_token
-from utils.decorators import with_user
-from utils.json import json_response
-from utils.password import validate_hash, generate_hash
+from utils.auth import jwt_token
+from utils.auth.decorators import with_user
+from utils.response import json_response
+from utils.auth.password import validate_hash, generate_hash
 
 
 class AuthCredentials(BaseModel):

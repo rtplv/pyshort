@@ -4,6 +4,7 @@ from asyncio.log import logger
 from typing import Dict, Any
 
 import aiofiles
+from aiohttp import web
 from authlib.jose import jwt, JWTClaims
 from conf import ROOT_PATH
 
@@ -23,6 +24,10 @@ async def decode(token: str) -> JWTClaims:
 async def validate(token: str) -> None:
     claims = await decode(token)
     claims.validate()
+
+
+def extract_from_req(req: web.Request):
+    return req.headers["Authorization"].partition(' ')[2]
 
 
 async def __load_key(file_name: str) -> str:
