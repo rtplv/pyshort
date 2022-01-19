@@ -1,5 +1,4 @@
 import math
-import sys
 
 BASE = 62
 
@@ -67,24 +66,3 @@ def dehydrate(integer):
         string = true_chr(remainder) + string
         integer = int(integer / BASE)
     return string
-
-
-if __name__ == '__main__':
-
-    # not really unit tests just a rough check to see if anything is way off
-    if sys.argv[1] == '-tests':
-        passed_tests = True
-        for i in range(0, 1000):
-            passed_tests &= (i == saturate(dehydrate(i)))
-        print(passed_tests)
-    else:
-        user_input = sys.argv[2]
-        try:
-            if sys.argv[1] == '-s':
-                print(saturate(user_input))
-            elif sys.argv[1] == '-d':
-                print(dehydrate(int(user_input)))
-            else:
-                print("I don't understand option %s" % sys.argv[1])
-        except ValueError as e:
-            print(e)

@@ -47,18 +47,18 @@ app.on_startup.append(on_startup)
 app.on_shutdown.append(on_shutdown)
 # CORS
 # WARN: only for dev
-cors = aiohttp_cors.setup(app, defaults={
-    "*": aiohttp_cors.ResourceOptions(
-        allow_credentials=True,
-        expose_headers="*",
-        allow_headers="*",
-        allow_methods="*"
-    )
-})
+# cors = aiohttp_cors.setup(app, defaults={
+#     "*": aiohttp_cors.ResourceOptions(
+#         allow_credentials=True,
+#         expose_headers="*",
+#         allow_headers="*",
+#         allow_methods="*"
+#     )
+# })
 
-for route in list(app.router.routes()):
-    cors.add(route)
+# for route in list(app.router.routes()):
+#     cors.add(route)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    web.run_app(app, host="127.0.0.1", port=8080)
+    web.run_app(app)

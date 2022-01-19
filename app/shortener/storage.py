@@ -1,11 +1,10 @@
-from dataclasses import dataclass
 from datetime import datetime
+from pydantic import BaseModel
 
 import conf
 
 
-@dataclass
-class Url:
+class Url(BaseModel):
     id: int
     original_url: str
     user_id: int
@@ -32,7 +31,7 @@ async def get_url_by_id(id: int) -> Url:
 
     url = await conf.db.fetch_one(query, values)
 
-    return Url(**url) if url else None
+    return Url.parse_obj(url) if url else None
 
 
 async def get_urls_by_user_id(user_id: int):
@@ -41,5 +40,5 @@ async def get_urls_by_user_id(user_id: int):
 
     urls = await conf.db.fetch_all(query, values)
 
-    return [Url(**u) for u in urls] if urls else None
+    return [Url.parse_obj(u) for u in urls] if urls else None
 

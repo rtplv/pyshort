@@ -6,5 +6,5 @@ def generate_hash(password: str) -> str:
     return bcrypt.hashpw(bytes(password, encoding="utf8"), salt).decode()
 
 
-def validate_hash(password: str, pwd_hash: str):
+def validate_hash(password: str, pwd_hash: str) -> bool:
     return bcrypt.checkpw(bytes(password, encoding="utf8"), bytes(pwd_hash, encoding="utf8"))

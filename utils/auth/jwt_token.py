@@ -21,12 +21,12 @@ async def decode(token: str) -> JWTClaims:
     return claims
 
 
-async def validate(token: str) -> None:
+async def validate(token: str):
     claims = await decode(token)
     claims.validate()
 
 
-def extract_from_req(req: web.Request):
+def extract_from_req(req: web.Request) -> str:
     return req.headers["Authorization"].partition(' ')[2]
 
 

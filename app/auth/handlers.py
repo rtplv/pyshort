@@ -20,7 +20,7 @@ class AuthCredentials(BaseModel):
 async def login(req: web.Request) -> web.Response:
     try:
         body = await req.json()
-        credentials = AuthCredentials(**body)
+        credentials = AuthCredentials.parse_obj(body)
         user = await storage.get_user(credentials.login)
 
         if user is not None and validate_hash(credentials.password, user.password):
@@ -40,7 +40,7 @@ async def login(req: web.Request) -> web.Response:
 async def register(req: web.Request) -> web.Response:
     try:
         body = await req.json()
-        credentials = AuthCredentials(**body)
+        credentials = AuthCredentials.parse_obj(body)
 
         return json_response({
             "id": await storage.create_user(credentials.login, generate_hash(credentials.password))
@@ -53,9 +53,6 @@ async def register(req: web.Request) -> web.Response:
 
 @with_user()
 async def get_user(_: web.Request, user: User) -> web.Response:
-    safe_user = user.__dict__.copy()
-    del safe_user["password"]
-
     return json_response({
-        "user": safe_user
+        "user": user.copy(exclude={"password"}).__dict__
     })

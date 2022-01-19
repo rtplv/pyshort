@@ -1,12 +1,12 @@
 from typing import List
 
+from pydantic import BaseModel
+
 import conf
-from dataclasses import dataclass
 from datetime import datetime
 
 
-@dataclass
-class User:
+class User(BaseModel):
     id: int
     login: str
     password: str
@@ -14,8 +14,7 @@ class User:
     updated_at: datetime
 
 
-@dataclass
-class Token:
+class Token(BaseModel):
     id: int
     token: str
     user_id: int
@@ -39,7 +38,7 @@ async def get_user(login: str) -> User:
     values = {"login": login}
 
     user_map = await conf.db.fetch_one(query, values)
-    return User(**user_map) if user_map else None
+    return User.parse_obj(user_map) if user_map else None
 
 
 async def create_token(token: str, user_id: int):
@@ -58,4 +57,4 @@ async def get_tokens_by_user(user_id: int) -> List[Token]:
             "WHERE user_id = :user_id"
 
     sessions = await conf.db.fetch_all(query, {"user_id": user_id})
-    return [Token(**s) for s in sessions] if sessions else None
+    return [Token.parse_obj(s) for s in sessions] if sessions else None
