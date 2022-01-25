@@ -1,5 +1,5 @@
 # pyshort
-Url shortener on http://pyshort.ru
+Url shortener
 
 ## Deployment
 Generate RSA key pairs for JWT tokens generating:
